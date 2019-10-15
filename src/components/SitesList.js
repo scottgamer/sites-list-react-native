@@ -73,7 +73,7 @@ class SiteList extends Component {
           ) : !this.state.isLoading && this.props.sites.length === 0 ? (
             <View style={styles.flexCenterAll}>
               <Text style={{ fontSize: 16, fontWeight: 'bold' }}>
-                Sorry! We couldn't find any sites.
+                No sites found!.
               </Text>
             </View>
           ) : (
