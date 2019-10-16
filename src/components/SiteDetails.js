@@ -5,12 +5,14 @@ import {
   View,
   TouchableOpacity,
   Image,
-  ScrollView
+  ScrollView,
+  Linking
 } from "react-native";
 import { Header } from "react-native-elements";
 import { connect } from "react-redux";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import OtherContacts from "./OtherContacts";
 
 class SiteDetails extends Component {
   constructor() {
@@ -27,6 +29,14 @@ class SiteDetails extends Component {
         }}
       />
     );
+  };
+
+  handleDialCall = phoneNumber => {
+    Linking.openURL(`tel:${phoneNumber}`).catch(err => console.log(err));
+  };
+
+  handleEmail = email => {
+    Linking.openURL(`mailto:${email}`).catch(err => console.log(err));
   };
 
   render() {
@@ -87,9 +97,20 @@ class SiteDetails extends Component {
                   <View style={styles.childContainerThree}>
                     <Text style={styles.boldText}>Phone:</Text>
                     <View style={styles.phoneNumberContainer}>
-                      <Text>{this.props.activeSite.contacts[0].phone}</Text>
+                      <TouchableOpacity
+                        onPress={() => {
+                          this.handleDialCall(
+                            this.props.activeSite.contacts[0].phone
+                          );
+                        }}
+                      >
+                        <View>
+                          <Text>{this.props.activeSite.contacts[0].phone}</Text>
+                        </View>
+                      </TouchableOpacity>
                       <Text style={styles.leftText}>Work</Text>
                     </View>
+
                     <View
                       style={[styles.phoneNumberContainer, { marginTop: 7 }]}
                     >
@@ -99,36 +120,23 @@ class SiteDetails extends Component {
                       <Text style={styles.leftText}>Home</Text>
                     </View>
                   </View>
+
                   <View style={styles.childContainerFour}>
                     <Text style={styles.boldText}>Email:</Text>
-                    <Text>{this.props.activeSite.contacts[0].email}</Text>
-                  </View>
-                  <View style={styles.childContainerFive}>
-                    <View style={styles.otherContactsHeader}>
-                      <Text>Other Contacts</Text>
-                    </View>
-                    <ScrollView showsVerticalScrollIndicator={false}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        this.handleEmail(
+                          this.props.activeSite.contacts[0].email
+                        );
+                      }}
+                    >
                       <View>
-                        {this.props.activeSite.contacts.map(
-                          (contact, index) => {
-                            if (index !== 0) {
-                              return (
-                                <View
-                                  key={index.toString()}
-                                  style={styles.phoneNumberContainer2}
-                                >
-                                  <Text>{contact.name}</Text>
-                                  <Text style={styles.leftText}>
-                                    {contact.phone}
-                                  </Text>
-                                </View>
-                              );
-                            }
-                          }
-                        )}
+                        <Text>{this.props.activeSite.contacts[0].email}</Text>
                       </View>
-                    </ScrollView>
+                    </TouchableOpacity>
                   </View>
+
+                  <OtherContacts contacts={this.props.activeSite.contacts} />
                 </View>
               )}
             </View>
@@ -216,23 +224,5 @@ const styles = StyleSheet.create({
   childContainerFour: {
     marginTop: 30,
     marginBottom: 20
-  },
-  childContainerFive: {
-    borderColor: "gray",
-    borderWidth: 1,
-    height: 140
-  },
-  otherContactsHeader: {
-    backgroundColor: "#eee",
-    padding: 5,
-    paddingLeft: 10
-  },
-  phoneNumberContainer2: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    padding: 5,
-    paddingLeft: 10,
-    paddingRight: 10
   }
 });
