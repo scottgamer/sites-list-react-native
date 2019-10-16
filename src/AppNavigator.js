@@ -1,7 +1,7 @@
-import { createStackNavigator } from 'react-navigation-stack'
-import { createAppContainer } from 'react-navigation'
-import SitesList from './components/SitesList'
-import SitesDetails from './components/SiteDetails'
+import { createStackNavigator } from "react-navigation-stack";
+import { createAppContainer } from "react-navigation";
+import SitesList from "./components/SitesList";
+import SitesDetails from "./components/SiteDetails";
 
 const NavigationStack = createStackNavigator(
   {
@@ -19,10 +19,10 @@ const NavigationStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: 'SitesList'
+    initialRouteName: "SitesList"
   }
-)
+);
 
-const AppNavigator = createAppContainer(NavigationStack)
+const AppNavigator = createAppContainer(NavigationStack);
 
-export default AppNavigator
+export default AppNavigator;

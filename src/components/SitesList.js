@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 import {
   StyleSheet,
   Text,
@@ -10,46 +10,46 @@ import {
   ScrollView,
   Image,
   TouchableOpacity
-} from 'react-native'
-import { connect } from 'react-redux'
-import { Spinner } from 'react-native-ui-kitten'
-import { setActiveSite, populateSiteData } from '../store/actions/sitesActions'
+} from "react-native";
+import { connect } from "react-redux";
+import { Spinner } from "react-native-ui-kitten";
+import { setActiveSite, populateSiteData } from "../store/actions/sitesActions";
 
 class SiteList extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
       isLoading: true
-    }
+    };
   }
 
   componentDidMount() {
-    return fetch('https://s3.amazonaws.com/decom_uploads/external/sites.json')
+    return fetch("https://s3.amazonaws.com/decom_uploads/external/sites.json")
       .then(response => response.json())
       .then(responseJson => {
         this.setState({
           isLoading: false
-        })
-        this.populateSiteData(responseJson.sites)
+        });
+        this.populateSiteData(responseJson.sites);
       })
       .catch(error => {
-        console.error(error)
-      })
+        console.error(error);
+      });
   }
 
   populateSiteData = sites => {
-    this.props.populateSiteData(sites)
-  }
+    this.props.populateSiteData(sites);
+  };
 
   openSiteDetails = index => {
-    this.props.setActiveSite(index)
-    this.props.navigation.navigate('SitesDetails')
-  }
+    this.props.setActiveSite(index);
+    this.props.navigation.navigate("SitesDetails");
+  };
 
   renderGridItem = ({ item, index }) => (
     <TouchableOpacity
       onPress={() => {
-        this.openSiteDetails(index)
+        this.openSiteDetails(index);
       }}
     >
       <View style={styles.cardContainer}>
@@ -60,11 +60,11 @@ class SiteList extends Component {
         </View>
       </View>
     </TouchableOpacity>
-  )
+  );
 
   render() {
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
         <View style={styles.container}>
           {this.state.isLoading && this.props.sites.length === 0 ? (
             <View style={styles.flexCenterAll}>
@@ -72,7 +72,7 @@ class SiteList extends Component {
             </View>
           ) : !this.state.isLoading && this.props.sites.length === 0 ? (
             <View style={styles.flexCenterAll}>
-              <Text style={{ fontSize: 16, fontWeight: 'bold' }}>
+              <Text style={{ fontSize: 16, fontWeight: "bold" }}>
                 No sites found!.
               </Text>
             </View>
@@ -88,37 +88,37 @@ class SiteList extends Component {
           )}
         </View>
       </SafeAreaView>
-    )
+    );
   }
 }
 
 mapStateToProps = state => {
   return {
     sites: state.sitesReducer.sites
-  }
-}
+  };
+};
 
 mapDispatchToProps = dispatch => {
   return {
     setActiveSite: index => {
-      dispatch(setActiveSite(index))
+      dispatch(setActiveSite(index));
     },
     populateSiteData: sites => {
-      dispatch(populateSiteData(sites))
+      dispatch(populateSiteData(sites));
     }
-  }
-}
+  };
+};
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SiteList)
+)(SiteList);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
+    backgroundColor: "#fff",
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
   },
   listLayout: {
     padding: 10,
@@ -126,40 +126,40 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     flex: 1,
-    flexDirection: 'row',
-    width: '100%',
+    flexDirection: "row",
+    width: "100%",
     height: 110,
     paddingTop: 10,
     paddingBottom: 10,
     paddingLeft: 5,
     marginBottom: 15,
     borderRadius: 3,
-    backgroundColor: '#fff',
-    shadowColor: '#fff',
+    backgroundColor: "#fff",
+    shadowColor: "#fff",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 1,
     elevation: 2,
-    alignContent: 'center',
-    justifyContent: 'center'
+    alignContent: "center",
+    justifyContent: "center"
   },
   itemBgImage: {
-    height: '100%',
-    width: '25%'
+    height: "100%",
+    width: "25%"
   },
   nameAndAddressContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
     paddingLeft: 10,
     marginRight: 7
   },
-  itemNameText: { fontSize: 17, fontWeight: 'bold', marginBottom: 15 },
+  itemNameText: { fontSize: 17, fontWeight: "bold", marginBottom: 15 },
   flexCenterAll: {
-    display: 'flex',
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
-    justifyContent: 'center'
+    display: "flex",
+    width: "100%",
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "center"
   }
-})
+});

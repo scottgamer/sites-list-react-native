@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 import {
   StyleSheet,
   Text,
@@ -6,15 +6,15 @@ import {
   TouchableOpacity,
   Image,
   ScrollView
-} from 'react-native'
-import { Header } from 'react-native-elements'
-import { connect } from 'react-redux'
-import Ionicons from 'react-native-vector-icons/Ionicons'
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
+} from "react-native";
+import { Header } from "react-native-elements";
+import { connect } from "react-redux";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 class SiteDetails extends Component {
   constructor() {
-    super()
+    super();
   }
 
   header = () => {
@@ -23,11 +23,11 @@ class SiteDetails extends Component {
         leftComponent={<BackArrow />}
         rightComponent={<EditIcon />}
         containerStyle={{
-          backgroundColor: '#00aae9'
+          backgroundColor: "#00aae9"
         }}
       />
-    )
-  }
+    );
+  };
 
   render() {
     BackArrow = () => {
@@ -35,23 +35,23 @@ class SiteDetails extends Component {
         <View style={styles.headerContainer}>
           <TouchableOpacity
             onPress={() => {
-              this.props.navigation.replace('SitesList')
+              this.props.navigation.replace("SitesList");
             }}
           >
             <Ionicons name="ios-arrow-back" size={30} color="#fff" />
           </TouchableOpacity>
           <Text style={styles.headertext}>All Sites</Text>
         </View>
-      )
-    }
+      );
+    };
 
     EditIcon = () => {
       return (
         <TouchableOpacity>
           <FontAwesome name="pencil" size={25} color="#fff" />
         </TouchableOpacity>
-      )
-    }
+      );
+    };
 
     return (
       <View>
@@ -122,7 +122,7 @@ class SiteDetails extends Component {
                                     {contact.phone}
                                   </Text>
                                 </View>
-                              )
+                              );
                             }
                           }
                         )}
@@ -135,7 +135,7 @@ class SiteDetails extends Component {
           </View>
         </ScrollView>
       </View>
-    )
+    );
   }
 }
 
@@ -143,24 +143,24 @@ mapStateToProps = state => {
   return {
     sites: state.sitesReducer.sites,
     activeSite: state.sitesReducer.activeSite
-  }
-}
+  };
+};
 
 export default connect(
   mapStateToProps,
   null
-)(SiteDetails)
+)(SiteDetails);
 
 const styles = StyleSheet.create({
   headerContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center'
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center"
   },
   headertext: {
     fontSize: 15,
-    fontWeight: 'bold',
-    color: '#fff',
+    fontWeight: "bold",
+    color: "#fff",
     marginLeft: 10
   },
   bodyContainer: {
@@ -168,71 +168,71 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     paddingLeft: 10,
     paddingRight: 10,
-    flexDirection: 'column'
+    flexDirection: "column"
   },
   detailsContainer: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
     paddingLeft: 10,
     paddingRight: 10
   },
   childContainerOne: {
-    display: 'flex',
-    flexDirection: 'row',
+    display: "flex",
+    flexDirection: "row",
     marginBottom: 30
   },
   itemBgImage: {
     height: 110,
-    width: '45%'
+    width: "45%"
   },
   nameContainer: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
     marginLeft: 40,
-    justifyContent: 'space-around',
+    justifyContent: "space-around",
     height: 110
   },
   textContainer: {
-    display: 'flex',
-    flexDirection: 'column'
+    display: "flex",
+    flexDirection: "column"
   },
   boldText: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 5
   },
   childContainerTwo: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
     marginBottom: 30
   },
   phoneNumberContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between'
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between"
   },
   leftText: {
-    textAlign: 'left'
+    textAlign: "left"
   },
   childContainerFour: {
     marginTop: 30,
     marginBottom: 20
   },
   childContainerFive: {
-    borderColor: 'gray',
+    borderColor: "gray",
     borderWidth: 1,
     height: 140
   },
   otherContactsHeader: {
-    backgroundColor: '#eee',
+    backgroundColor: "#eee",
     padding: 5,
     paddingLeft: 10
   },
   phoneNumberContainer2: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
     padding: 5,
     paddingLeft: 10,
     paddingRight: 10
   }
-})
+});
