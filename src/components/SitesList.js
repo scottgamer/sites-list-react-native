@@ -24,18 +24,25 @@ class SiteList extends Component {
   }
 
   componentDidMount() {
-    return fetch("https://s3.amazonaws.com/decom_uploads/external/sites.json")
-      .then(response => response.json())
-      .then(responseJson => {
-        this.setState({
-          isLoading: false
-        });
-        this.populateSiteData(responseJson.sites);
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    setTimeout(() => {
+      this.fetchData();
+    }, 2000);
   }
+
+  fetchData = async () => {
+    try {
+      const response = await fetch(
+        "https://s3.amazonaws.com/decom_uploads/external/sites.json"
+      );
+      const responseJson = await response.json();
+      this.setState({
+        isLoading: false
+      });
+      this.populateSiteData(responseJson.sites);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   populateSiteData = sites => {
     this.props.populateSiteData(sites);
@@ -134,6 +141,7 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     marginBottom: 15,
     borderRadius: 3,
+    borderColor: "black",
     backgroundColor: "#fff",
     shadowColor: "#fff",
     shadowOffset: { width: 0, height: 2 },
