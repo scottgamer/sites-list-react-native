@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,12 +7,12 @@ import {
   Image,
   ScrollView,
   Linking
-} from "react-native";
-import { Header } from "react-native-elements";
-import { connect } from "react-redux";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import OtherContacts from "./OtherContacts";
+} from 'react-native';
+import { Header } from 'react-native-elements';
+import { connect } from 'react-redux';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import OtherContacts from './OtherContacts';
 
 class SiteDetails extends Component {
   constructor() {
@@ -25,7 +25,7 @@ class SiteDetails extends Component {
         leftComponent={<BackArrow />}
         rightComponent={<EditIcon />}
         containerStyle={{
-          backgroundColor: "#00aae9"
+          backgroundColor: '#00aae9'
         }}
       />
     );
@@ -42,16 +42,16 @@ class SiteDetails extends Component {
   render() {
     BackArrow = () => {
       return (
-        <View style={styles.headerContainer}>
-          <TouchableOpacity
-            onPress={() => {
-              this.props.navigation.replace("SitesList");
-            }}
-          >
+        <TouchableOpacity
+          onPress={() => {
+            this.props.navigation.replace('SitesList');
+          }}
+        >
+          <View style={styles.headerContainer}>
             <Ionicons name="ios-arrow-back" size={30} color="#fff" />
-          </TouchableOpacity>
-          <Text style={styles.headertext}>All Sites</Text>
-        </View>
+            <Text style={styles.headertext}>All Sites</Text>
+          </View>
+        </TouchableOpacity>
       );
     };
 
@@ -161,14 +161,14 @@ export default connect(
 
 const styles = StyleSheet.create({
   headerContainer: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center"
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   headertext: {
     fontSize: 15,
-    fontWeight: "bold",
-    color: "#fff",
+    fontWeight: 'bold',
+    color: '#fff',
     marginLeft: 10
   },
   bodyContainer: {
@@ -176,50 +176,50 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     paddingLeft: 10,
     paddingRight: 10,
-    flexDirection: "column"
+    flexDirection: 'column'
   },
   detailsContainer: {
-    display: "flex",
-    flexDirection: "column",
+    display: 'flex',
+    flexDirection: 'column',
     paddingLeft: 10,
     paddingRight: 10
   },
   childContainerOne: {
-    display: "flex",
-    flexDirection: "row",
+    display: 'flex',
+    flexDirection: 'row',
     marginBottom: 30
   },
   itemBgImage: {
     height: 110,
-    width: "45%"
+    width: '45%'
   },
   nameContainer: {
-    display: "flex",
-    flexDirection: "column",
+    display: 'flex',
+    flexDirection: 'column',
     marginLeft: 40,
-    justifyContent: "space-around",
+    justifyContent: 'space-around',
     height: 110
   },
   textContainer: {
-    display: "flex",
-    flexDirection: "column"
+    display: 'flex',
+    flexDirection: 'column'
   },
   boldText: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginBottom: 5
   },
   childContainerTwo: {
-    display: "flex",
-    flexDirection: "column",
+    display: 'flex',
+    flexDirection: 'column',
     marginBottom: 30
   },
   phoneNumberContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between"
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
   leftText: {
-    textAlign: "left"
+    textAlign: 'left'
   },
   childContainerFour: {
     marginTop: 30,
