@@ -23,7 +23,8 @@ class SiteList extends Component {
     super();
     this.state = {
       isLoading: true,
-      isLoadingMore: false
+      isLoadingMore: false,
+      isImageLoaded: false
     };
   }
 
@@ -64,6 +65,10 @@ class SiteList extends Component {
     }
   };
 
+  loadRealImage = () => {
+    this.setState({ isImageLoaded: true });
+  };
+
   populateSiteData = sites => {
     this.props.populateSiteData(sites);
   };
@@ -84,7 +89,17 @@ class SiteList extends Component {
       }}
     >
       <View style={styles.cardContainer}>
-        <Image source={{ uri: item.image }} style={styles.itemBgImage} />
+        <Image
+          source={
+            this.state.isImageLoaded
+              ? { uri: item.image }
+              : require('../../assets/images/default_image_thumbnail.png')
+          }
+          style={styles.itemBgImage}
+          onLoad={() => {
+            this.loadRealImage();
+          }}
+        />
         <View style={styles.nameAndAddressContainer}>
           <Text style={styles.itemNameText}>{item.name}</Text>
           <Text>{item.address}</Text>
