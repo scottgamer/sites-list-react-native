@@ -1,5 +1,11 @@
-import React from "react";
-import { View, Text, ScrollView, StyleSheet } from "react-native";
+import React from 'react';
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity
+} from 'react-native';
 
 const OtherContacts = props => {
   return (
@@ -17,7 +23,15 @@ const OtherContacts = props => {
                   style={styles.phoneNumberContainer2}
                 >
                   <Text>{contact.name}</Text>
-                  <Text style={styles.leftText}>{contact.phone}</Text>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.dial(contact.phone);
+                    }}
+                  >
+                    <View>
+                      <Text style={styles.leftText}>{contact.phone}</Text>
+                    </View>
+                  </TouchableOpacity>
                 </View>
               );
             }
@@ -30,25 +44,25 @@ const OtherContacts = props => {
 
 const styles = StyleSheet.create({
   otherContacts: {
-    borderColor: "gray",
+    borderColor: 'gray',
     borderWidth: 1,
     height: 140
   },
   otherContactsHeader: {
-    backgroundColor: "#eee",
+    backgroundColor: '#eee',
     padding: 5,
     paddingLeft: 10
   },
   phoneNumberContainer2: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     padding: 5,
     paddingLeft: 10,
     paddingRight: 10
   },
   leftText: {
-    textAlign: "left"
+    textAlign: 'left'
   }
 });
 
