@@ -1,4 +1,4 @@
-import * as Actions from "../actions";
+import * as Actions from '../actions';
 
 const initialState = {
   sites: [],
@@ -15,9 +15,25 @@ const sitesReducer = (state = initialState, action) => {
       };
     }
     case Actions.POPULATE_SITE_DATA: {
+      const sitesData = action.payload.sites.map((site, index) => {
+        site.index = index.toString();
+        return site;
+      });
       return {
         ...state,
-        sites: action.payload.sites
+        sites: sitesData
+      };
+    }
+    case Actions.POPULATE_MORE_SITE_DATA: {
+      const sitesData = state.sites.concat(action.payload.sites);
+      const newSitesData = sitesData.map((site, index) => {
+        site.index = index.toString();
+        return site;
+      });
+
+      return {
+        ...state,
+        sites: newSitesData
       };
     }
     default: {

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,16 +10,21 @@ import {
   ScrollView,
   Image,
   TouchableOpacity
-} from "react-native";
-import { connect } from "react-redux";
-import { Spinner } from "react-native-ui-kitten";
-import { setActiveSite, populateSiteData } from "../store/actions/sitesActions";
+} from 'react-native';
+import { connect } from 'react-redux';
+import { Spinner } from 'react-native-ui-kitten';
+import {
+  setActiveSite,
+  populateSiteData,
+  populateMoreSiteData
+} from '../store/actions/sitesActions';
 
 class SiteList extends Component {
   constructor() {
     super();
     this.state = {
-      isLoading: true
+      isLoading: true,
+      isLoadingMore: false
     };
   }
 
@@ -32,7 +37,7 @@ class SiteList extends Component {
   fetchData = async () => {
     try {
       const response = await fetch(
-        "https://s3.amazonaws.com/decom_uploads/external/sites.json"
+        'https://s3.amazonaws.com/decom_uploads/external/sites.json'
       );
       const responseJson = await response.json();
       this.setState({
@@ -44,13 +49,36 @@ class SiteList extends Component {
     }
   };
 
+  handleLoadMore = () => {
+    if (!this.state.isLoadingMore) {
+      this.setState({
+        isLoadingMore: true
+      });
+      fetch('https://s3.amazonaws.com/decom_uploads/external/sites.json')
+        .then(response => response.json())
+        .then(responseJson => {
+          this.setState(
+            {
+              isLoadingMore: false
+            },
+            () => {
+              this.props.populateMoreSiteData(responseJson.sites);
+            }
+          );
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  };
+
   populateSiteData = sites => {
     this.props.populateSiteData(sites);
   };
 
   openSiteDetails = index => {
     this.props.setActiveSite(index);
-    this.props.navigation.navigate("SitesDetails");
+    this.props.navigation.navigate('SitesDetails');
   };
 
   renderGridItem = ({ item, index }) => (
@@ -69,9 +97,26 @@ class SiteList extends Component {
     </TouchableOpacity>
   );
 
+  renderFooter = () => {
+    if (!this.state.isLoadingMore) return null;
+    return (
+      <View
+        style={{
+          backgroundColor: '#fefefe',
+          padding: 10,
+          width: '100%',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        <Spinner size="giant" status="primary" />
+      </View>
+    );
+  };
+
   render() {
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
         <View style={styles.container}>
           {this.state.isLoading && this.props.sites.length === 0 ? (
             <View style={styles.flexCenterAll}>
@@ -79,19 +124,22 @@ class SiteList extends Component {
             </View>
           ) : !this.state.isLoading && this.props.sites.length === 0 ? (
             <View style={styles.flexCenterAll}>
-              <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+              <Text style={{ fontSize: 16, fontWeight: 'bold' }}>
                 No sites found!.
               </Text>
             </View>
           ) : (
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={{ flex: 1, backgroundColor: '#fefefe' }}>
               <FlatList
                 data={this.props.sites}
-                keyExtractor={site => site.id}
+                keyExtractor={site => site.index}
                 renderItem={this.renderGridItem}
                 contentContainerStyle={styles.listLayout}
+                onEndReached={this.handleLoadMore.bind(this)}
+                onEndReachedThreshold={0.01}
+                ListFooterComponent={this.renderFooter}
               />
-            </ScrollView>
+            </View>
           )}
         </View>
       </SafeAreaView>
@@ -112,6 +160,9 @@ mapDispatchToProps = dispatch => {
     },
     populateSiteData: sites => {
       dispatch(populateSiteData(sites));
+    },
+    populateMoreSiteData: sites => {
+      dispatch(populateMoreSiteData(sites));
     }
   };
 };
@@ -124,8 +175,8 @@ export default connect(
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
+    backgroundColor: '#fff',
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
   },
   listLayout: {
     padding: 10,
@@ -133,41 +184,41 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     flex: 1,
-    flexDirection: "row",
-    width: "100%",
+    flexDirection: 'row',
+    width: '100%',
     height: 110,
     paddingTop: 10,
     paddingBottom: 10,
     paddingLeft: 5,
     marginBottom: 15,
     borderRadius: 3,
-    borderColor: "black",
-    backgroundColor: "#fff",
-    shadowColor: "black",
+    borderColor: 'black',
+    backgroundColor: '#fff',
+    shadowColor: 'black',
     shadowOffset: { width: 0, height: 0.75 },
     shadowOpacity: 0.5,
     shadowRadius: 1,
     elevation: 2,
-    alignContent: "center",
-    justifyContent: "center"
+    alignContent: 'center',
+    justifyContent: 'center'
   },
   itemBgImage: {
-    height: "100%",
-    width: "25%"
+    height: '100%',
+    width: '25%'
   },
   nameAndAddressContainer: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
     paddingLeft: 10,
     marginRight: 7
   },
-  itemNameText: { fontSize: 17, fontWeight: "bold", marginBottom: 15 },
+  itemNameText: { fontSize: 17, fontWeight: 'bold', marginBottom: 15 },
   flexCenterAll: {
-    display: "flex",
-    width: "100%",
-    height: "100%",
-    alignItems: "center",
-    justifyContent: "center"
+    display: 'flex',
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
