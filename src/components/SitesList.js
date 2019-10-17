@@ -7,7 +7,6 @@ import {
   SafeAreaView,
   StatusBar,
   Platform,
-  ScrollView,
   Image,
   TouchableOpacity
 } from 'react-native';
@@ -28,10 +27,12 @@ class SiteList extends Component {
     };
   }
 
-  componentDidMount() {
-    setTimeout(() => {
-      this.fetchData();
-    }, 2000);
+  async componentDidMount() {
+    const data = await this.fetchData();
+    this.setState({
+      isLoading: false
+    });
+    this.populateSiteData(data.sites);
   }
 
   fetchData = async () => {
@@ -40,42 +41,35 @@ class SiteList extends Component {
         'https://s3.amazonaws.com/decom_uploads/external/sites.json'
       );
       const responseJson = await response.json();
-      this.setState({
-        isLoading: false
-      });
-      this.populateSiteData(responseJson.sites);
+      return responseJson;
     } catch (error) {
       console.error(error);
     }
   };
 
-  // TODO: handle promise
-
-  handleLoadMore = () => {
+  handleLoadMore = async () => {
     if (!this.state.isLoadingMore) {
       this.setState({
         isLoadingMore: true
       });
-      fetch('https://s3.amazonaws.com/decom_uploads/external/sites.json')
-        .then(response => response.json())
-        .then(responseJson => {
-          this.setState(
-            {
-              isLoadingMore: false
-            },
-            () => {
-              this.props.populateMoreSiteData(responseJson.sites);
-            }
-          );
-        })
-        .catch(error => {
-          console.error(error);
-        });
+      const data = await this.fetchData();
+      this.setState(
+        {
+          isLoadingMore: false
+        },
+        () => {
+          this.populateMoreSiteData(data.sites);
+        }
+      );
     }
   };
 
   populateSiteData = sites => {
     this.props.populateSiteData(sites);
+  };
+
+  populateMoreSiteData = sites => {
+    this.props.populateMoreSiteData(sites);
   };
 
   openSiteDetails = index => {
@@ -133,11 +127,14 @@ class SiteList extends Component {
           ) : (
             <View style={{ flex: 1, backgroundColor: '#fefefe' }}>
               <FlatList
+                showsVerticalScrollIndicator={false}
                 data={this.props.sites}
                 keyExtractor={site => site.index}
                 renderItem={this.renderGridItem}
                 contentContainerStyle={styles.listLayout}
-                onEndReached={this.handleLoadMore.bind(this)}
+                onEndReached={() => {
+                  this.handleLoadMore();
+                }}
                 onEndReachedThreshold={0.01}
                 ListFooterComponent={this.renderFooter}
               />
