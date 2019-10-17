@@ -49,6 +49,8 @@ class SiteList extends Component {
     }
   };
 
+  // TODO: handle promise
+
   handleLoadMore = () => {
     if (!this.state.isLoadingMore) {
       this.setState({
