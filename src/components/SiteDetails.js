@@ -17,13 +17,17 @@ import OtherContacts from './OtherContacts';
 class SiteDetails extends Component {
   constructor() {
     super();
+    this.state = {
+      isImageLoaded: false
+    };
   }
 
+  // TODO: activate EditIcon component when logic is defined
   header = () => {
     return (
       <Header
         leftComponent={<BackArrow />}
-        rightComponent={<EditIcon />}
+        // rightComponent={<EditIcon />}
         containerStyle={{
           backgroundColor: '#00aae9'
         }}
@@ -37,6 +41,10 @@ class SiteDetails extends Component {
 
   handleEmail = email => {
     Linking.openURL(`mailto:${email}`).catch(err => console.log(err));
+  };
+
+  loadRealImage = () => {
+    this.setState({ isImageLoaded: true });
   };
 
   render() {
@@ -71,8 +79,16 @@ class SiteDetails extends Component {
             <View style={styles.detailsContainer}>
               <View style={styles.childContainerOne}>
                 <Image
-                  source={{ uri: this.props.activeSite.image }}
+                  source={
+                    this.state.isImageLoaded
+                      ? { uri: this.props.activeSite.image }
+                      : require('../../assets/images/default_image_thumbnail.png')
+                  }
                   style={styles.itemBgImage}
+                  onLoad={() => {
+                    console.log('on load start', this.state.isImageLoaded);
+                    this.loadRealImage();
+                  }}
                 />
                 <View style={styles.nameContainer}>
                   <View style={styles.textContainer}>
@@ -136,7 +152,10 @@ class SiteDetails extends Component {
                     </TouchableOpacity>
                   </View>
 
-                  <OtherContacts contacts={this.props.activeSite.contacts} />
+                  <OtherContacts
+                    contacts={this.props.activeSite.contacts}
+                    dial={this.handleDialCall}
+                  />
                 </View>
               )}
             </View>
