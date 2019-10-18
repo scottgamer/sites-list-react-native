@@ -86,7 +86,6 @@ class SiteDetails extends Component {
                   }
                   style={styles.itemBgImage}
                   onLoad={() => {
-                    console.log('on load start', this.state.isImageLoaded);
                     this.loadRealImage();
                   }}
                 />

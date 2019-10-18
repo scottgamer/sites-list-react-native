@@ -24,7 +24,8 @@ class SiteList extends Component {
     this.state = {
       isLoading: true,
       isLoadingMore: false,
-      isImageLoaded: false
+      isImageLoaded: false,
+      isimageLoading: false
     };
   }
 
@@ -69,6 +70,10 @@ class SiteList extends Component {
     this.setState({ isImageLoaded: true });
   };
 
+  startLoadingRealImage = () => {
+    this.setState({ isimageLoading: true });
+  };
+
   populateSiteData = sites => {
     this.props.populateSiteData(sites);
   };
@@ -91,11 +96,16 @@ class SiteList extends Component {
       <View style={styles.cardContainer}>
         <Image
           source={
-            this.state.isImageLoaded
+            this.state.isImageLoading
+              ? require('../../assets/images/default_image_thumbnail.png')
+              : this.state.isImageLoaded
               ? { uri: item.image }
               : require('../../assets/images/default_image_thumbnail.png')
           }
           style={styles.itemBgImage}
+          onLoadStart={() => {
+            this.startLoadingRealImage();
+          }}
           onLoad={() => {
             this.loadRealImage();
           }}
